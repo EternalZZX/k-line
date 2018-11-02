@@ -14,6 +14,10 @@ body {
   font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
 }
 
+li {
+  list-style: none;
+}
+
 @media screen and (max-width: 767px) {
   html {
     font-size: 20px;
@@ -102,4 +106,37 @@ body {
 
 .kl-main {
   margin: auto;
+}
+
+.kl-section {
+  display: flex;
+}
+
+.kl-section__item {
+  flex: 1;
+  flex-basis: 40%
+}
+
+.kl-section__item.kl-section__item_large {
+  flex-basis: 60%
+}
+
+.kl-content {
+  position: relative;
+  margin: .5rem;
+  margin-top: 2.5rem;
+  padding: .5rem 0;
+}
+
+.kl-content::before {
+  content: attr(data-title);
+  display: block;
+  position: absolute;
+  top: -2rem;
+  left: 0;
+  height: 2rem;
+  font-size: 1rem;
+  line-height: 2rem;
+  border-bottom: 3px solid #268de4;
+  box-sizing: border-box;
 }
