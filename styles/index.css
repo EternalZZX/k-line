@@ -110,11 +110,10 @@ li {
 
 .kl-section {
   display: flex;
-  padding: .5rem;
+  padding: .5rem 0;
 }
 
 .kl-section__item {
-  flex: 1;
   flex-basis: 40%
 }
 
@@ -345,4 +344,8 @@ li {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.kl-help-image__wrapper {
+  margin: .5rem;
 }
