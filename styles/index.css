@@ -110,6 +110,7 @@ li {
 
 .kl-section {
   display: flex;
+  padding: .5rem;
 }
 
 .kl-section__item {
@@ -124,8 +125,8 @@ li {
 .kl-content {
   position: relative;
   margin: .5rem;
-  margin-top: 2.5rem;
-  padding-top: .5rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
 }
 
 .kl-content::before {
@@ -141,13 +142,14 @@ li {
   box-sizing: border-box;
 }
 
+.kl-shadow-box {
+  padding: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+}
+
 .kl-chart {
   width: 100%;
   height: 30rem;
-}
-
-.kl-slider__wrapper {
-  margin: 1rem 0;
 }
 
 .kl-slider {
@@ -201,4 +203,36 @@ li {
 
 .kl-slider.ui-slider-vertical.ui-slider-pips .ui-slider-pip {
   left: -2.2rem;
+}
+
+.kl-button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.kl-button-group .kl-button {
+  width: 4rem;
+  margin: 0 1rem;
+  padding: .5rem 0;
+  text-align: center;
+  color: #268de4;
+  background-color: #ebf3fc;
+  border-radius: 3px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.kl-button-group .kl-button.kl-button_active {
+  color: #fff;
+  background-color: #268de4;
+}
+
+.kl-button-group .kl-button:hover {
+  color: #fff;
+  background-color: #3a9ef3;
+}
+
+.kl-button-group .kl-button:active {
+  color: #fff;
+  background-color: #2896f3;
 }

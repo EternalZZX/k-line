@@ -85,13 +85,18 @@ $(function () {
       legend: {
         data: ['周K', 'MA5', 'MA10', 'MA20', 'MA30'],
         left: 120,
-        top: 2
+        top: 2,
+        selected: {
+          'MA10': false,
+          'MA20': false,
+          'MA30': false
+        }
       },
       grid: {
         left: '8%',
-        right: '7%',
+        right: '8%',
         top: '10%',
-        bottom: '18%'
+        bottom: '17%'
       },
       xAxis: {
         type: 'category',
@@ -115,6 +120,21 @@ $(function () {
         trigger: 'axis',
         axisPointer: {
           type: 'cross'
+        },
+        formatter: function (params) {
+          var html = params[0].name + '<br>' +
+            params[0].seriesName + '<br>' +
+            params[0].marker + '开盘价: ' + params[0].data[1] + '<br>' +
+            params[0].marker + '收盘价: ' + params[0].data[2] + '<br>' +
+            params[0].marker + '最低价: ' + params[0].data[3] + '<br>' +
+            params[0].marker + '最高价: ' + params[0].data[4] + '<br>' +
+            params[0].marker + '成交量: ' + params[0].data[5];
+          if (params.length > 1) {
+            for (var i = 1; i < params.length; i++) {
+              html += '<br>' + params[i].marker + params[i].seriesName + ': ' + params[i].data;
+            }
+          }
+          return html;
         }
       },
       dataZoom: [{
