@@ -31,27 +31,47 @@
           <section class="kl-content" data-title="定制化结构">
             <div class="kl-shadow-box">
               <div id="slider-range" class="kl-slider"></div>
-              <div class="kl-button-group">
-                <div class="kl-button">6个月</div>
-                <div class="kl-button">1年</div>
-                <div class="kl-button">2年</div>
-              </div>
+              <div id="date-range" class="kl-button-group"></div>
             </div>
           </section>
           <section class="kl-content" data-title="回测">
-            <div class="kl-shadow-box"></div>
+            <div class="kl-compute">
+              <button id="compute-btn" class="kl-compute__button">确定</button>
+              <p class="kl-compute__info">
+                收益 = <span id="compute-income">26%</span>
+              </p>
+            </div>
+            <table id="date-table" class="kl-table"></table>
           </section>
         </li>
       </ul>
       <ul class="kl-section">
         <li class="kl-section__item">
           <section class="kl-content" data-title="收益说明图">
-
+            <ul class="kl-help">
+              <li>
+                <p><b>1. </b>任何一个敲出观察日敲出（交易提前终止）</p>
+                <strong>投资人总收益 = <span id="help-income-1">26%</span>（年化）</strong>
+                <span class="kl-help__description">例：第五个月敲出，收益 = 26% * 5 / 12 = 10.8%</span>
+              </li>
+              <li>
+                <p><b>2. </b>期间敲入，并在某一敲出观察日敲出交易提前终止</p>
+                <strong>投资人总收益 = <span id="help-income-2">16%</span>（年化）</strong>
+              </li>
+              <li>
+                <p><b>3. </b>期中从未敲出，从未敲入</p>
+                <strong>投资人总收益 = <span id="help-income-3">16%</span></strong>
+              </li>
+              <li>
+                <p><b>4. </b>期中从未敲出，曾敲入到期日股价低于期初价格</p>
+                <strong>投资人总亏损 = <span>跌幅</span>（非年化）</strong>
+              </li>
+            </ul>
           </section>
         </li>
         <li class="kl-section__item kl-section__item_large">
           <div class="kl-shadow-box">
-            <img>
+            <div class="kl-help-image">
           </div>
         </li>
       </ul>

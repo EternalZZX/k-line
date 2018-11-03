@@ -8,13 +8,21 @@ $(function () {
 
   var searchButton = $('#search-btn');
   var codeInput = $('#code-input');
+  var dateRange = $('#date-range');
+  var dataTable = $('#date-table');
+  var computeButton = $('#compute-btn');
+  var computeIncome = $('#compute-income');
+  var helpIncome1 = $('#help-income-1');
+  var helpIncome2 = $('#help-income-2');
+  var helpIncome3 = $('#help-income-3');
   var KLineChart = echarts.init(document.getElementById('k-line-chart'));
 
-  var weeklyData = [];
-  var name = '';
-  var price = 0;
+  var dateRangeSelect = '';
   var sliderInput = 0;
   var sliderOutput = 0;
+  var name = '';
+  var price = 0;
+  var weeklyData = [];
 
   $('#slider-range').slider({
     orientation: 'vertical',
@@ -38,6 +46,68 @@ $(function () {
     var code = codeInput.val();
     getShareInfo(code);
   });
+
+  codeInput.keydown(function (event) { 
+    if (event.keyCode === 13) {
+      var code = codeInput.val();
+      getShareInfo(code);
+    }
+  });
+
+  var dateArray = [
+    { label: '6个月', value: '6m' },
+    { label: '1年', value: '1y' },
+    { label: '2年', value: '2y' }
+  ];
+  initDateRange(dateArray);
+
+  $('.kl-button').click(function () {
+    $('.kl-button').removeClass('kl-button_active');
+    $(this).addClass('kl-button_active');
+    dateRangeSelect = $(this).data('value');
+  });
+
+  var tableData = {
+    head: ['6个月', '1年', '2年', '3年'],
+    title: ['最高年化收益:', '实际收益:', '亏损:', '敲入(次):', '敲入(次):'],
+    data: [
+      ['26%', '26%', '26%', '26%'],
+      ['10.8', '10.8', '10.8', '10.8'],
+      ['0%', '0%', '0%', '0%'],
+      ['0', '1', '3', '2'],
+      ['0', '1', '3', '2']
+    ]
+  }
+  initTable(tableData);
+
+  function initDateRange (dateArray) {
+    dateRange.empty();
+    dateArray.forEach(function (item, index) {
+      var html = index === 0
+        ? '<div class="kl-button kl-button_active" data-value="' + item.value + '">' + item.label + '</div>'
+        : '<div class="kl-button" data-value="' + item.value + '">' + item.label + '</div>'
+      dateRange.append(html);
+    });
+    dateRangeSelect = dateArray[0].value;
+  }
+
+  function initTable (tableData) {
+    dataTable.empty();
+    var html = '<thead><tr><th></th>';
+    tableData.head.forEach(function (item) {
+      html += '<th>' + item + '</th>';
+    });
+    html += '</tr></thead><tbody>';
+    for (var i = 0; i < tableData.title.length; i++) {
+      html += '<tr><td>' + tableData.title[i] + '</td>';
+      for (var j = 0; j < tableData.head.length; j++) {
+        html += '<td>' + tableData.data[i][j] + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    dataTable.append(html);
+  }
 
   function getShareInfo (code) {
     if (!code || code.length !== 6) {

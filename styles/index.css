@@ -125,7 +125,7 @@ li {
 .kl-content {
   position: relative;
   margin: .5rem;
-  margin-top: 2rem;
+  margin-top: 2.29rem;
   padding-top: 1rem;
 }
 
@@ -154,7 +154,7 @@ li {
 
 .kl-slider {
   position: relative;
-  height: 15rem;
+  height: 12rem;
   border-left: 1px solid #333;
 }
 
@@ -213,7 +213,7 @@ li {
 .kl-button-group .kl-button {
   width: 4rem;
   margin: 0 1rem;
-  padding: .5rem 0;
+  padding: .3rem 0;
   text-align: center;
   color: #268de4;
   background-color: #ebf3fc;
@@ -235,4 +235,114 @@ li {
 .kl-button-group .kl-button:active {
   color: #fff;
   background-color: #2896f3;
+}
+
+.kl-compute {
+  position: absolute;
+  display: flex;
+  top: -1.7rem;
+  left: 4.5rem;
+}
+
+.kl-compute__button {
+  align-items: center;
+  height: 2rem;
+  width: 5rem;
+  color: #fff;
+  background-color: #268de4;
+  border: 1px solid #268de4;
+  border-radius: 3px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.kl-compute__button:hover {
+  background-color: #3a9ef3;
+}
+
+.kl-compute__button:active {
+  background-color: #2896f3;
+}
+
+.kl-compute__info {
+  padding: 0 2rem;
+  font-size: 1rem;
+  line-height: 2rem;
+  font-weight: bold;
+  color: #ef9035;
+}
+
+.kl-table {
+  width: 100%;
+  color: #333;
+  border-collapse: collapse;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+}
+
+.kl-table thead {
+  background-color: #ebf3fc;
+}
+
+.kl-table th,
+.kl-table td {
+  font-size: 1rem;
+  font-weight: normal;
+  text-align: center;
+}
+
+.kl-table th {
+  padding: .8rem;
+}
+
+.kl-table tbody tr:first-child td {
+  padding-top: .8rem;
+}
+
+.kl-table tbody tr:last-child td {
+  padding-bottom: .8rem;
+}
+
+.kl-table tbody tr td:first-child {
+  padding-left: .8rem;
+  text-align: left;
+  color: #268de4;
+}
+
+.kl-table tbody tr td:last-child {
+  padding-right: .8rem;
+}
+
+.kl-help {
+  font-size: 1rem; 
+}
+
+.kl-help li {
+  margin-bottom: 2rem;
+}
+
+.kl-help li p {
+  margin-bottom: 1rem;
+}
+
+.kl-help li strong {
+  padding-left: 1rem;
+}
+
+.kl-help li strong span {
+  color: #ef9035;
+}
+
+.kl-help li .kl-help__description {
+  display: block;
+  padding-left: 1rem;
+  color: #939393;
+}
+
+.kl-help-image {
+  width: 100%;
+  height: 25rem;
+  background-image: url(../images/help.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
