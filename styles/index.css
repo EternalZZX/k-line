@@ -143,5 +143,62 @@ li {
 
 .kl-chart {
   width: 100%;
-  height: 20rem;
+  height: 30rem;
+}
+
+.kl-slider__wrapper {
+  margin: 1rem 0;
+}
+
+.kl-slider {
+  position: relative;
+  height: 15rem;
+  border-left: 1px solid #333;
+}
+
+.ui-slider .ui-slider-range {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.kl-slider .ui-slider-handle {
+  position: absolute;
+  left: 0;
+  right: 2.5rem;
+  height: 1rem;
+  margin-bottom: -.5rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.kl-slider .ui-slider-handle::before {
+  content: '敲出';
+  position: absolute;
+  top: -.1rem;
+  right: -2.5rem;
+  color: #268de4;
+}
+.kl-slider .ui-slider-handle:nth-child(2)::before {
+  content: '敲入';
+}
+
+.kl-slider .ui-slider-handle::after {
+  content: '';
+  position: absolute;
+  top: .5rem;
+  right: 0;
+  left: 0;
+  border-top: 2px dashed #268de4;
+}
+
+.kl-slider.ui-slider-vertical.ui-slider-pips {
+  margin-right: 0;
+  margin-left: 2rem;
+}
+
+.kl-slider.ui-slider-vertical.ui-slider-pips .ui-slider-pip {
+  left: -2.2rem;
 }

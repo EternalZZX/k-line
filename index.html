@@ -8,12 +8,13 @@
     <meta http-equiv="cache-control" content="private">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>收益计算</title>
+    <link rel="stylesheet" href="styles/jquery-ui-slider-pips.min.css">
     <link rel="stylesheet" href="styles/index.css?version=1.0.0">
   </head>
   <body>
     <header class="kl-header">
-      <input class="kl-header__input" maxlength="6" placeholder="搜索股票">
-      <button class="kl-header__search">
+      <input id="code-input" class="kl-header__input" maxlength="6" placeholder="搜索股票">
+      <button id="search-btn" class="kl-header__search">
         <i class="kl-icon ki-search"></i>
       </button>
     </header>
@@ -26,7 +27,9 @@
         </li>
         <li class="kl-section__item">
           <section class="kl-content" data-title="定制化结构">
-
+            <div class="kl-slider__wrapper">
+              <div id="slider-range" class="kl-slider"></div>
+            </div>
           </section>
           <section class="kl-content" data-title="回测">
 
@@ -45,8 +48,9 @@
       </ul>
     </main>
     <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="scripts/jquery-ui.min.js"></script>
+    <script src="scripts/jquery-ui-slider-pips.min.js"></script>
     <script src="scripts/echarts.min.js"></script>
-    <script src="temp/data.js"></script>
     <script src="scripts/index.js"></script>
   </body>
 </html>

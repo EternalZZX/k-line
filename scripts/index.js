@@ -1,32 +1,221 @@
 $(function () {
+  var weeklyDataUrl = 'http://data.gtimg.cn/flashdata/hushen/latest/weekly/';
+  var shareDataUrl = 'http://qt.gtimg.cn/q=';
+  var upColor = '#ec0000';
+  var downColor = '#00da3c';
+  var upBorderColor = '#8A0000';
+  var downBorderColor = '#008F28';
+
+  var searchButton = $('#search-btn');
+  var codeInput = $('#code-input');
   var KLineChart = echarts.init(document.getElementById('k-line-chart'));
 
-  $.getScript('http://data.gtimg.cn/flashdata/hushen/latest/weekly/sz000006.js', function (data) {
-    var rawData = [];
+  var weeklyData = [];
+  var name = '';
+  var price = 0;
+  var sliderInput = 0;
+  var sliderOutput = 0;
+
+  $('#slider-range').slider({
+    orientation: 'vertical',
+    range: true,
+    min: 80,
+    max: 120,
+    values: [90, 110],
+    slide: function( event, ui ) {
+      sliderInput = ui.values[0];
+      sliderOutput = ui.values[1];
+      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+    }
+  }).slider('pips', {
+      rest: 'label',
+      step: '5'
+  });
+
+  getShareInfo('399001');
+
+  searchButton.click(function () {
+    var code = codeInput.val();
+    getShareInfo(code);
+  });
+
+  function getShareInfo (code) {
+    if (!code || code.length !== 6) {
+      return;
+    }
+    var reqCode = ['0', '1', '2', '3'].indexOf(code[0]) !== -1
+      ? 'sz' + code : 'sh' + code;
+    $.getScript(shareDataUrl + reqCode, function (data) {
+      var arr = window['v_' + reqCode].split('~');
+      name = arr[1];
+      price = parseFloat(arr[3]);
+      getKLine(code, name, price * sliderInput / 100, price * sliderOutput / 100);
+    }).fail(function (err) {
+      console.log(err);
+    });
+  }
+
+  function getKLine (code, name, input, output) {
+    if (!code || code.length !== 6) {
+      return;
+    }
+    var reqCode = ['0', '1', '2', '3'].indexOf(code[0]) !== -1
+      ? 'sz' + code : 'sh' + code;
+    $.getScript(weeklyDataUrl + reqCode + '.js', function () {
+      weeklyData = formatData();
+      drawChart(weeklyData, name, input, output);
+    }).fail(function (err) {
+      console.log(err);
+    });
+  }
+
+  function drawChart(raw, name, input, output) {
+    var data = deepClone(raw);
+    data = splitData(data);
+    var option = getOption(data, name, input, output);
+    KLineChart.setOption(option, true);
+  }
+
+  function getOption (data, name, input, output) {
+    return {
+      title: {
+        text: name,
+        left: 0
+      },
+      legend: {
+        data: ['周K', 'MA5', 'MA10', 'MA20', 'MA30'],
+        left: 120,
+        top: 2
+      },
+      grid: {
+        left: '8%',
+        right: '7%',
+        top: '10%',
+        bottom: '18%'
+      },
+      xAxis: {
+        type: 'category',
+        data: data.categoryData,
+        scale: true,
+        boundaryGap: false,
+        axisLine: {
+          onZero: false
+        },
+        splitLine: {
+          show: false
+        },
+        splitNumber: 20,
+        min: 'dataMin',
+        max: 'dataMax'
+      },
+      yAxis: {
+        scale: true
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        }
+      },
+      dataZoom: [{
+        type: 'inside',
+        start: 0,
+        end: 100
+      }, {
+        show: true,
+        type: 'slider',
+        y: '90%',
+        start: 50,
+        end: 100
+      }],
+      series: [{
+        name: '周K',
+        type: 'candlestick',
+        data: data.values,
+        itemStyle: {
+          normal: {
+            color: upColor,
+            color0: downColor,
+            borderColor: upBorderColor,
+            borderColor0: downBorderColor
+          }
+        },
+        markLine: {
+          data: [
+            { name: '敲入', xAxis: 0, yAxis: input, symbol: 'circle'},
+            { name: '敲出', xAxis: 0, yAxis: output, symbol: 'circle'},
+          ]
+        }
+      }, {
+        name: 'MA5',
+        type: 'line',
+        data: calculateMA(data, 5),
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          normal: {
+            opacity: 0.5
+          }
+        }
+      }, {
+        name: 'MA10',
+        type: 'line',
+        data: calculateMA(data, 10),
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          normal: {
+            opacity: 0.5
+          }
+        }
+      }, {
+        name: 'MA20',
+        type: 'line',
+        data: calculateMA(data, 20),
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          normal: {
+            opacity: 0.5
+          }
+        }
+      }, {
+        name: 'MA30',
+        type: 'line',
+        data: calculateMA(data, 30),
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          normal: {
+            opacity: 0.5
+          }
+        }
+      }]
+    };
+  }
+
+  function formatData () {
+    var arrData = [];
     var arr = latest_weekly_data.split('\n');
     arr = arr.slice(2, arr.length - 1);
     arr.forEach(function (item) {
       var arrItem = item.split(' ');
-      var date = '20' + arrItem[0].substring(0, 2)
-        + '-' + arrItem[0].substring(2, 4)
-        + '-' + arrItem[0].substring(4, 6);
-      rawData.push([
+      var date = '20' + arrItem[0].substring(0, 2) +
+        '-' + arrItem[0].substring(2, 4) +
+        '-' + arrItem[0].substring(4, 6);
+      arrData.push([
         date,
-        arrItem[1],
-        arrItem[2],
-        arrItem[4],
-        arrItem[3],
-        arrItem[5]]);
+        parseFloat(arrItem[1]),
+        parseFloat(arrItem[2]),
+        parseFloat(arrItem[4]),
+        parseFloat(arrItem[3]),
+        parseInt(arrItem[5])
+      ]);
     });
-    drawChart(rawData);
-  }).fail(function (err) {
-    console.log(err);
-  });
+    return arrData;
+  }
 
-  var upColor = '#00da3c';
-  var downColor = '#ec0000';
-
-  function splitData(rawData) {
+  function splitData (rawData) {
     var categoryData = [];
     var values = [];
     var volumes = [];
@@ -42,7 +231,7 @@ $(function () {
     };
   }
 
-  function calculateMA(dayCount, data) {
+  function calculateMA (data, dayCount) {
     var result = [];
     for (var i = 0, len = data.values.length; i < len; i++) {
       if (i < dayCount) {
@@ -58,250 +247,14 @@ $(function () {
     return result;
   }
 
-  function drawChart (raw) {
-    var data = splitData(raw);
-    KLineChart.setOption(option = {
-      backgroundColor: '#fff',
-      animation: false,
-      legend: {
-        bottom: 10,
-        left: 'center',
-        data: ['Dow-Jones index', 'MA5', 'MA10', 'MA20', 'MA30']
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross'
-        },
-        backgroundColor: 'rgba(245, 245, 245, 0.8)',
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        textStyle: {
-          color: '#000'
-        },
-        position: function (pos, params, el, elRect, size) {
-          var obj = {
-            top: 10
-          };
-          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-          return obj;
-        }
-        // extraCssText: 'width: 170px'
-      },
-      axisPointer: {
-        link: {
-          xAxisIndex: 'all'
-        },
-        label: {
-          backgroundColor: '#777'
-        }
-      },
-      toolbox: {
-        feature: {
-          dataZoom: {
-            yAxisIndex: false
-          },
-          brush: {
-            type: ['lineX', 'clear']
-          }
-        }
-      },
-      brush: {
-        xAxisIndex: 'all',
-        brushLink: 'all',
-        outOfBrush: {
-          colorAlpha: 0.1
-        }
-      },
-      visualMap: {
-        show: false,
-        seriesIndex: 5,
-        dimension: 2,
-        pieces: [{
-          value: 1,
-          color: downColor
-        }, {
-          value: -1,
-          color: upColor
-        }]
-      },
-      grid: [{
-        left: '10%',
-        right: '8%',
-        height: '50%'
-      }, {
-        left: '10%',
-        right: '8%',
-        top: '63%',
-        height: '16%'
-      }],
-      xAxis: [{
-        type: 'category',
-        data: data.categoryData,
-        scale: true,
-        boundaryGap: false,
-        axisLine: {
-          onZero: false
-        },
-        splitLine: {
-          show: false
-        },
-        splitNumber: 20,
-        min: 'dataMin',
-        max: 'dataMax',
-        axisPointer: {
-          z: 100
-        }
-      }, {
-        type: 'category',
-        gridIndex: 1,
-        data: data.categoryData,
-        scale: true,
-        boundaryGap: false,
-        axisLine: {
-          onZero: false
-        },
-        axisTick: {
-          show: false
-        },
-        splitLine: {
-          show: false
-        },
-        axisLabel: {
-          show: false
-        },
-        splitNumber: 20,
-        min: 'dataMin',
-        max: 'dataMax'
-        // axisPointer: {
-        //     label: {
-        //         formatter: function (params) {
-        //             var seriesValue = (params.seriesData[0] || {}).value;
-        //             return params.value
-        //             + (seriesValue != null
-        //                 ? '\n' + echarts.format.addCommas(seriesValue)
-        //                 : ''
-        //             );
-        //         }
-        //     }
-        // }
-      }],
-      yAxis: [{
-        scale: true,
-        splitArea: {
-          show: true
-        }
-      }, {
-        scale: true,
-        gridIndex: 1,
-        splitNumber: 2,
-        axisLabel: {
-          show: false
-        },
-        axisLine: {
-          show: false
-        },
-        axisTick: {
-          show: false
-        },
-        splitLine: {
-          show: false
-        }
-      }],
-      dataZoom: [{
-        type: 'inside',
-        xAxisIndex: [0, 1],
-        start: 98,
-        end: 100
-      }, {
-        show: true,
-        xAxisIndex: [0, 1],
-        type: 'slider',
-        top: '85%',
-        start: 98,
-        end: 100
-      }],
-      series: [{
-        name: 'Dow-Jones index',
-        type: 'candlestick',
-        data: data.values,
-        itemStyle: {
-          normal: {
-            color: upColor,
-            color0: downColor,
-            borderColor: null,
-            borderColor0: null
-          }
-        },
-        tooltip: {
-          formatter: function (param) {
-            param = param[0];
-            return [
-              'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
-              'Open: ' + param.data[0] + '<br/>',
-              'Close: ' + param.data[1] + '<br/>',
-              'Lowest: ' + param.data[2] + '<br/>',
-              'Highest: ' + param.data[3] + '<br/>'
-            ].join('');
-          }
-        }
-      }, {
-        name: 'MA5',
-        type: 'line',
-        data: calculateMA(5, data),
-        smooth: true,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'MA10',
-        type: 'line',
-        data: calculateMA(10, data),
-        smooth: true,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'MA20',
-        type: 'line',
-        data: calculateMA(20, data),
-        smooth: true,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'MA30',
-        type: 'line',
-        data: calculateMA(30, data),
-        smooth: true,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'Volume',
-        type: 'bar',
-        xAxisIndex: 1,
-        yAxisIndex: 1,
-        data: data.volumes
-      }
-    ]}, true);
-
-    KLineChart.dispatchAction({
-      type: 'brush',
-      areas: [{
-        brushType: 'lineX',
-        coordRange: ['2016-06-02', '2016-06-20'],
-        xAxisIndex: 0
-      }]
-    });
+  function deepClone(obj) {
+    if (typeof obj != 'object' || obj === null) {
+      return obj;
+    }
+    var newObj = obj.constructor === Array ? [] : {};
+    for (var key in obj) {
+      newObj[key] = deepClone(obj[key]);
+    }
+    return newObj;
   }
 });
