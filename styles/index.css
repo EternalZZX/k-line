@@ -18,30 +18,6 @@ li {
   list-style: none;
 }
 
-@media screen and (max-width: 767px) {
-  html {
-    font-size: 20px;
-  }
-}
-
-@media screen and (max-width: 1279px) {
-  .kl-main {
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 1280px) and (max-width: 1365px) {
-  .kl-main {
-    width: 1000px;
-  }
-}
-
-@media screen and (min-width: 1366px) {
-  .kl-main {
-    width: 1280px;
-  }
-}
-
 .kl-header {
   width: 100%;
   height: 3rem;
@@ -247,6 +223,7 @@ li {
   align-items: center;
   height: 2rem;
   width: 5rem;
+  font-size: 1rem;
   color: #fff;
   background-color: #268de4;
   border: 1px solid #268de4;
@@ -264,7 +241,7 @@ li {
 }
 
 .kl-compute__info {
-  padding: 0 2rem;
+  padding-left: 2rem;
   font-size: 1rem;
   line-height: 2rem;
   font-weight: bold;
@@ -290,7 +267,7 @@ li {
 }
 
 .kl-table th {
-  padding: .8rem;
+  padding: .8rem 0;
 }
 
 .kl-table tbody tr:first-child td {
@@ -348,4 +325,46 @@ li {
 
 .kl-help-image__wrapper {
   margin: .5rem;
+}
+
+
+@media screen and (max-width: 767px) {
+  html {
+    font-size: 16px;
+  }
+  
+  .kl-main {
+    padding: 0 .5rem;
+    box-sizing: border-box;
+  }
+
+  .kl-section {
+    flex-direction: column;
+  }
+
+  .kl-chart {
+    height: 20rem;
+  }
+
+  .kl-content_t {
+    margin-top: 3rem;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .kl-main {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1365px) {
+  .kl-main {
+    width: 1000px;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .kl-main {
+    width: 1280px;
+  }
 }
