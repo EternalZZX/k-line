@@ -152,21 +152,11 @@ $(function () {
         text: name,
         left: 0
       },
-      legend: {
-        data: ['周K', 'MA5', 'MA10', 'MA20', 'MA30'],
-        left: 120,
-        top: 2,
-        selected: {
-          'MA10': false,
-          'MA20': false,
-          'MA30': false
-        }
-      },
       grid: {
         left: '8%',
         right: '8%',
         top: '10%',
-        bottom: '17%'
+        bottom: '10%'
       },
       xAxis: {
         type: 'category',
@@ -207,17 +197,6 @@ $(function () {
           return html;
         }
       },
-      dataZoom: [{
-        type: 'inside',
-        start: 0,
-        end: 100
-      }, {
-        show: true,
-        type: 'slider',
-        y: '90%',
-        start: 50,
-        end: 100
-      }],
       series: [{
         name: '周K',
         type: 'candlestick',
@@ -240,39 +219,6 @@ $(function () {
         name: 'MA5',
         type: 'line',
         data: calculateMA(data, 5),
-        smooth: true,
-        showSymbol: false,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'MA10',
-        type: 'line',
-        data: calculateMA(data, 10),
-        smooth: true,
-        showSymbol: false,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'MA20',
-        type: 'line',
-        data: calculateMA(data, 20),
-        smooth: true,
-        showSymbol: false,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
-        name: 'MA30',
-        type: 'line',
-        data: calculateMA(data, 30),
         smooth: true,
         showSymbol: false,
         lineStyle: {
