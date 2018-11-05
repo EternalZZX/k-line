@@ -100,7 +100,7 @@ li {
 .kl-content {
   position: relative;
   margin: .5rem;
-  margin-top: 2.29rem;
+  margin-top: 2.3rem;
   padding-top: 1rem;
 }
 
@@ -117,28 +117,50 @@ li {
   box-sizing: border-box;
 }
 
+.kl-content_t {
+  margin-top: 3rem;
+}
+
 .kl-shadow-box {
   padding: 1rem;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
 }
 
+.kl-shadow-box.kl-shadow-box_chart {
+  padding: 1rem 0;
+}
+
 .kl-chart {
   width: 100%;
-  height: 30rem;
+  height: 29.8rem;
 }
 
 .kl-slider {
   position: relative;
-  height: 12rem;
+  height: 5rem;
   border-left: 1px solid #333;
 }
 
-.ui-slider .ui-slider-range {
+.kl-slider.kl-slider_output::before {
+  content: '';
   position: absolute;
-  display: block;
+  bottom: -2px;
   left: 0;
-  right: 0;
-  z-index: 1;
+  right: 2.5rem;
+  display: block;
+  height: 0;
+  border-bottom: 2px solid #333;
+}
+
+.kl-slider.kl-slider_input::before {
+  content: '';
+  position: absolute;
+  top: -5rem;
+  left: -1px;
+  display: block;
+  height: 10rem;
+  width: 0;
+  border-left: 1px solid #333;
 }
 
 .kl-slider .ui-slider-handle {
@@ -152,14 +174,35 @@ li {
 }
 
 .kl-slider .ui-slider-handle::before {
-  content: '敲出';
+  content: '';
   position: absolute;
   top: -.1rem;
   right: -2.5rem;
   color: #268de4;
 }
-.kl-slider .ui-slider-handle:nth-child(2)::before {
+
+.kl-slider.kl-slider_output .ui-slider-handle::before {
+  content: '敲出';
+}
+
+.kl-slider.kl-slider_input .ui-slider-handle::before {
   content: '敲入';
+}
+
+.kl-slider .ui-slider-range {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.kl-slider.kl-slider_output .ui-slider-range {
+  bottom: 0;
+}
+
+.kl-slider.kl-slider_input .ui-slider-range {
+  top: 0;
 }
 
 .kl-slider .ui-slider-handle::after {
@@ -180,6 +223,21 @@ li {
   left: -2.2rem;
 }
 
+.kl-slider .ui-slider-pip-initial .ui-slider-label {
+  color: #999;
+  font-weight: normal; 
+}
+
+.kl-slider .ui-slider-pip-inrange .ui-slider-label {
+  color: #333;
+  font-weight: normal; 
+}
+
+.kl-slider .ui-slider-pip-selected .ui-slider-label {
+  color: #268de4;
+  font-weight: bold;
+}
+
 .kl-button-group {
   display: flex;
   justify-content: center;
@@ -187,7 +245,7 @@ li {
 
 .kl-button-group .kl-button {
   width: 4rem;
-  margin: 0 1rem;
+  margin: 0 .5rem;
   padding: .3rem 0;
   text-align: center;
   color: #268de4;
@@ -215,7 +273,7 @@ li {
 .kl-compute {
   position: absolute;
   display: flex;
-  top: -1.7rem;
+  top: -1.8rem;
   left: 4.5rem;
 }
 
@@ -327,7 +385,6 @@ li {
   margin: .5rem;
 }
 
-
 @media screen and (max-width: 767px) {
   html {
     font-size: 16px;
@@ -344,10 +401,6 @@ li {
 
   .kl-chart {
     height: 20rem;
-  }
-
-  .kl-content_t {
-    margin-top: 3rem;
   }
 }
 

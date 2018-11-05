@@ -24,23 +24,45 @@ $(function () {
   var price = 0;
   var weeklyData = [];
 
-  $('#slider-range').slider({
+  getShareInfo('300001');
+
+  $('#slider-output').slider({
     orientation: 'vertical',
-    range: true,
-    min: 80,
-    max: 120,
-    values: [90, 110],
-    slide: function( event, ui ) {
-      sliderInput = ui.values[0];
-      sliderOutput = ui.values[1];
+    range: 'min',
+    min: 100,
+    max: 110,
+    step: 2,
+    value: 102,
+    slide: function ( event, ui ) {
+      sliderOutput = ui.value;
+      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+    },
+    change: function ( event, ui ) {
+      sliderOutput = ui.value;
       drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
     }
   }).slider('pips', {
-      rest: 'label',
-      step: '5'
+    rest: 'label'
   });
 
-  getShareInfo('399001');
+  $('#slider-input').slider({
+    orientation: 'vertical',
+    range: 'max',
+    min: 70,
+    max: 90,
+    step: 5,
+    value: 90,
+    slide: function ( event, ui ) {
+      sliderInput = ui.value;
+      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+    },
+    change: function ( event, ui ) {
+      sliderInput = ui.value;
+      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+    }
+  }).slider('pips', {
+    rest: 'label'
+  });
 
   searchButton.click(function () {
     var code = codeInput.val();
@@ -55,9 +77,10 @@ $(function () {
   });
 
   var dateArray = [
-    { label: '6个月', value: '6m' },
-    { label: '1年', value: '1y' },
-    { label: '2年', value: '2y' }
+    { label: '3个月', value: '3' },
+    { label: '6个月', value: '6' },
+    { label: '9个月', value: '9' },
+    { label: '1年', value: '12' }
   ];
   initDateRange(dateArray);
 
@@ -150,13 +173,13 @@ $(function () {
     return {
       title: {
         text: name,
-        left: 0
+        left: '5%'
       },
       grid: {
-        left: '8%',
-        right: '8%',
+        left: '12%',
+        right: '12%',
         top: '10%',
-        bottom: '10%'
+        bottom: '8%'
       },
       xAxis: {
         type: 'category',
