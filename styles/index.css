@@ -59,6 +59,10 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   background-color: #ececec;
 }
 
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
 .kl-header__search {
   display: flex;
   justify-content: center;
