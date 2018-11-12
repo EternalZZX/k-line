@@ -24,7 +24,7 @@ $(function () {
   var price = 0;
   var weeklyData = [];
 
-  getShareInfo('300001');
+  getShareInfo('000016.SH');
 
   $('#slider-output').slider({
     orientation: 'vertical',
@@ -64,17 +64,62 @@ $(function () {
     rest: 'label'
   });
 
+  codeInput.autocomplete({
+    source: function (request, response) {
+      $.get({
+        url: "http://www.vcup.cn/api/income/stock",
+        type: 'get',
+        dataType: 'jsonp',
+        data: {
+          keyword: codeInput.val()
+        },
+        success: function (data) {
+          response($.map(data.data, 
+            function (item) {
+              return {
+                label: item.stocknamecn,
+                value: item.stocknamecn,
+                code: item.stockname,
+                maturityList: maturity_list,
+                knockinList: knockin_list,
+                knockoutList: knockout_list
+              }
+            })
+          );
+        }
+      });
+    },
+    focus: function() {
+      return false;
+    },
+    select: function (event, ui) {
+      getShareInfo(ui.item.code); 
+    }
+  });
+
   searchButton.click(function () {
-    var code = codeInput.val();
-    getShareInfo(code);
+    searchText();
   });
 
   codeInput.keydown(function (event) { 
     if (event.keyCode === 13) {
-      var code = codeInput.val();
-      getShareInfo(code);
+      searchText();
     }
   });
+
+  var searchText = function () {
+    $.get({
+      url: "http://www.vcup.cn/api/income/stock",
+      type: 'get',
+      dataType: 'jsonp',
+      data: {
+        keyword: codeInput.val()
+      },
+      success: function (data) {
+        getShareInfo(data.data[0].stockname);
+      }
+    });
+  }
 
   var dateArray = [
     { label: '3个月', value: '3' },
@@ -133,14 +178,14 @@ $(function () {
   }
 
   function getShareInfo (code) {
-    if (!code || code.length !== 6) {
+    if (!code) {
       return;
     }
-    var reqCode = ['0', '1', '2', '3'].indexOf(code[0]) !== -1
-      ? 'sz' + code : 'sh' + code;
+    var arr = code.split('.');
+    var reqCode = arr[1].toLowerCase() + arr[0];
     $.getScript(shareDataUrl + reqCode, function (data) {
       var arr = window['v_' + reqCode].split('~');
-      name = arr[1];
+      name = arr[1] + '(' + code + ')';
       price = parseFloat(arr[3]);
       getKLine(code, name, price * sliderInput / 100, price * sliderOutput / 100);
     }).fail(function (err) {
@@ -149,11 +194,11 @@ $(function () {
   }
 
   function getKLine (code, name, input, output) {
-    if (!code || code.length !== 6) {
+    if (!code) {
       return;
     }
-    var reqCode = ['0', '1', '2', '3'].indexOf(code[0]) !== -1
-      ? 'sz' + code : 'sh' + code;
+    var arr = code.split('.');
+    var reqCode = arr[1].toLowerCase() + arr[0];
     $.getScript(weeklyDataUrl + reqCode + '.js', function () {
       weeklyData = formatData();
       drawChart(weeklyData, name, input, output);
@@ -317,3 +362,5 @@ $(function () {
     return newObj;
   }
 });
+
+// http://webstock.quote.hermes.hexun.com/a/kline?code=sse601398&start=20170909150000&number=-1000&type=5&callback=callback

@@ -41,6 +41,24 @@ li {
   box-sizing: border-box;
 }
 
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front {
+  width: 14rem !important;
+  border: 1px solid #6a6a6a;
+  background: #fff;
+  border-radius: 3px;
+}
+
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item div {
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 .5rem;
+  cursor: pointer;
+}
+
+ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:hover {
+  background-color: #ececec;
+}
+
 .kl-header__search {
   display: flex;
   justify-content: center;
