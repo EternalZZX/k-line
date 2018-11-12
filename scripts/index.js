@@ -65,6 +65,7 @@ $(function () {
   });
 
   codeInput.autocomplete({
+    minLength: 2,
     source: function (request, response) {
       $.get({
         url: "http://www.vcup.cn/api/income/stock",
@@ -80,9 +81,9 @@ $(function () {
                 label: item.stocknamecn,
                 value: item.stocknamecn,
                 code: item.stockname,
-                maturityList: maturity_list,
-                knockinList: knockin_list,
-                knockoutList: knockout_list
+                maturityList: item.maturity_list,
+                knockinList: item.knockin_list,
+                knockoutList: item.knockout_list
               }
             })
           );
@@ -242,7 +243,12 @@ $(function () {
         max: 'dataMax'
       },
       yAxis: {
-        scale: true
+        max: function (value) {
+          return parseInt(value.max * 1.15);
+        },
+        min: function (value) {
+          return parseInt(value.min * 0.65);
+        }
       },
       tooltip: {
         trigger: 'axis',
