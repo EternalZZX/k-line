@@ -20,7 +20,7 @@ li {
 
 .kl-header {
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,11 +28,11 @@ li {
 }
 
 .kl-header__input {
-  height: 2rem;
-  width: 14rem;
+  height: 2.5rem;
+  width: 16rem;
   margin-right: .5rem;
   font-size: 1rem;
-  line-height: 2rem;
+  line-height: 2.5rem;
   text-align: center;
   color: #fff;
   background-color: #555763;
@@ -42,7 +42,7 @@ li {
 }
 
 ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front {
-  width: 14rem !important;
+  width: 16rem !important;
   max-height: 15rem;
   border: 1px solid #6a6a6a;
   background: #fff;
@@ -69,8 +69,8 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 2rem;
-  width: 2.8rem;
+  height: 2.5rem;
+  width: 3rem;
   background-color: #268de4;
   border: 1px solid #268de4;
   border-radius: 3px;
@@ -148,6 +148,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 .kl-shadow-box {
   padding: 1rem;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  border-radius: 5px;
 }
 
 .kl-shadow-box.kl-shadow-box_chart {
@@ -335,6 +336,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   color: #333;
   border-collapse: collapse;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  border-radius: 5px;
 }
 
 .kl-table thead {
@@ -368,6 +370,22 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 
 .kl-table tbody tr td:last-child {
   padding-right: .8rem;
+}
+
+.kl-table tr:first-child th:first-child {
+  border-top-left-radius: 5px;
+}
+
+.kl-table tr:first-child th:last-child {
+  border-top-right-radius: 5px;
+}
+
+.kl-table tr:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+.kl-table tr:last-child td:last-child {
+  border-bottom-right-radius: 5px;
 }
 
 .kl-help {
