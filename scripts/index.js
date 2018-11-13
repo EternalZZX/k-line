@@ -1,6 +1,8 @@
 $(function () {
+  var dailyDataUrl = 'http://webstock.quote.hermes.hexun.com/a/kline';
   var weeklyDataUrl = 'http://data.gtimg.cn/flashdata/hushen/latest/weekly/';
   var shareDataUrl = 'http://qt.gtimg.cn/q=';
+
   var upColor = '#ec0000';
   var downColor = '#00da3c';
   var upBorderColor = '#8A0000';
@@ -20,49 +22,12 @@ $(function () {
   var dateRangeSelect = '';
   var sliderInput = 0;
   var sliderOutput = 0;
+  var stockname = '';
   var name = '';
   var price = 0;
   var weeklyData = [];
 
-  getShareInfo('000016.SH');
-
-  $('#slider-output').slider({
-    orientation: 'vertical',
-    range: 'min',
-    min: 100,
-    max: 110,
-    step: 2,
-    value: 102,
-    slide: function ( event, ui ) {
-      sliderOutput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
-    },
-    change: function ( event, ui ) {
-      sliderOutput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
-    }
-  }).slider('pips', {
-    rest: 'label'
-  });
-
-  $('#slider-input').slider({
-    orientation: 'vertical',
-    range: 'max',
-    min: 70,
-    max: 90,
-    step: 5,
-    value: 90,
-    slide: function ( event, ui ) {
-      sliderInput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
-    },
-    change: function ( event, ui ) {
-      sliderInput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
-    }
-  }).slider('pips', {
-    rest: 'label'
-  });
+  searchText('000016.SH');
 
   codeInput.autocomplete({
     minLength: 2,
@@ -94,51 +59,34 @@ $(function () {
       return false;
     },
     select: function (event, ui) {
+      initSlider({
+        maturityList: ui.item.maturityList,
+        knockinList: ui.item.knockinList,
+        knockoutList: ui.item.knockoutList
+      });
       getShareInfo(ui.item.code); 
     }
   });
 
   searchButton.click(function () {
-    searchText();
+    var text = codeInput.val();
+    searchText(text);
   });
 
   codeInput.keydown(function (event) { 
     if (event.keyCode === 13) {
-      searchText();
+      var text = codeInput.val();
+      searchText(text);
     }
   });
 
-  var searchText = function () {
-    $.get({
-      url: "http://www.vcup.cn/api/income/stock",
-      type: 'get',
-      dataType: 'jsonp',
-      data: {
-        keyword: codeInput.val()
-      },
-      success: function (data) {
-        getShareInfo(data.data[0].stockname);
-      }
-    });
-  }
-
-  var dateArray = [
-    { label: '3个月', value: '3' },
-    { label: '6个月', value: '6' },
-    { label: '9个月', value: '9' },
-    { label: '1年', value: '12' }
-  ];
-  initDateRange(dateArray);
-
-  $('.kl-button').click(function () {
-    $('.kl-button').removeClass('kl-button_active');
-    $(this).addClass('kl-button_active');
-    dateRangeSelect = $(this).data('value');
+  computeButton.click(function () {
+    getIncome();
   });
 
   var tableData = {
     head: ['6个月', '1年', '2年', '3年'],
-    title: ['最高年化收益:', '实际收益:', '亏损:', '敲入(次):', '敲入(次):'],
+    title: ['最高年化收益:', '实际收益:', '亏损:', '敲入(次):', '敲出(次):'],
     data: [
       ['26%', '26%', '26%', '26%'],
       ['10.8', '10.8', '10.8', '10.8'],
@@ -146,8 +94,107 @@ $(function () {
       ['0', '1', '3', '2'],
       ['0', '1', '3', '2']
     ]
-  }
+  };
   initTable(tableData);
+
+  function getIncome () {
+    $.get({
+      url: "http://www.vcup.cn/api/income/output",
+      type: 'get',
+      dataType: 'jsonp',
+      data: {
+        stockname: stockname,
+        knockinprice: sliderInput,
+        knockoutprice: sliderOutput,
+        maturity: dateRangeSelect
+      },
+      success: function (data) {
+        computeIncome.html((data.data[0].output * 100).toFixed(2) + '%');
+      }
+    });
+    getTableData(stockname);
+  }
+
+  function initSlider (option) {
+    var knockoutList = option.knockoutList.split(',');
+    var outputMin = parseInt(knockoutList[0]);
+    var outputMax = parseInt(knockoutList[knockoutList.length - 1]);
+    var outputStep = (outputMax - outputMin) / (knockoutList.length - 1);
+    sliderOutput = parseInt(knockoutList[1]);
+    $('#slider-output').slider({
+      orientation: 'vertical',
+      range: 'min',
+      min: outputMin,
+      max: outputMax,
+      step: outputStep,
+      value: sliderOutput,
+      slide: function (event, ui) {
+        sliderOutput = ui.value;
+        drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      },
+      change: function (event, ui) {
+        sliderOutput = ui.value;
+        drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      }
+    }).slider('pips', {
+      rest: 'label'
+    });
+
+    var knockinList = option.knockinList.split(',');
+    var inputMin = parseInt(knockinList[0]);
+    var inputMax = parseInt(knockinList[knockinList.length - 1]);
+    var inputStep = (inputMax - inputMin) / (knockinList.length - 1);
+    sliderInput = parseInt(knockinList[knockinList.length - 1]);
+    $('#slider-input').slider({
+      orientation: 'vertical',
+      range: 'max',
+      min: inputMin,
+      max: inputMax,
+      step: inputStep,
+      value: sliderInput,
+      slide: function ( event, ui ) {
+        sliderInput = ui.value;
+        drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      },
+      change: function ( event, ui ) {
+        sliderInput = ui.value;
+        drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      }
+    }).slider('pips', {
+      rest: 'label'
+    });
+
+    var dateArray = [];
+    var maturityList = option.maturityList.split(',');
+    maturityList.forEach(function (item) {
+      dateArray.push({
+        label: parseInt(item) % 12 === 0
+          ? (parseInt(item) / 12) + '年'
+          : item + '个月',
+        value: item
+      })
+    });
+    initDateRange(dateArray);
+  }
+
+  function searchText (text) {
+    $.get({
+      url: "http://www.vcup.cn/api/income/stock",
+      type: 'get',
+      dataType: 'jsonp',
+      data: {
+        keyword: text
+      },
+      success: function (data) {
+        initSlider({
+          maturityList: data.data[0].maturity_list,
+          knockinList: data.data[0].knockin_list,
+          knockoutList: data.data[0].knockout_list
+        });
+        getShareInfo(data.data[0].stockname);
+      }
+    });
+  }
 
   function initDateRange (dateArray) {
     dateRange.empty();
@@ -158,6 +205,11 @@ $(function () {
       dateRange.append(html);
     });
     dateRangeSelect = dateArray[0].value;
+    $('.kl-button').click(function () {
+      $('.kl-button').removeClass('kl-button_active');
+      $(this).addClass('kl-button_active');
+      dateRangeSelect = $(this).data('value');
+    });
   }
 
   function initTable (tableData) {
@@ -182,16 +234,27 @@ $(function () {
     if (!code) {
       return;
     }
+    stockname = code;
     var arr = code.split('.');
     var reqCode = arr[1].toLowerCase() + arr[0];
     $.getScript(shareDataUrl + reqCode, function (data) {
       var arr = window['v_' + reqCode].split('~');
-      name = arr[1] + '(' + code + ')';
+      name = arr[1] + ' (' + code + ')';
       price = parseFloat(arr[3]);
       getKLine(code, name, price * sliderInput / 100, price * sliderOutput / 100);
+      getIncome();
     }).fail(function (err) {
       console.log(err);
     });
+  }
+
+  function getTableData (code) {
+    var arr = code.split('.');
+    var reqCode = (arr[1].toLowerCase() === 'sz' ? 'szse' : 'sse') + arr[0];
+    var date = new Date();
+    var start = date.getFullYear() + '' + (date.getMonth() + 1) + '' + date.getDate() + '000000';
+    var url = dailyDataUrl + '?code=' + reqCode + '&start=' + start + '&number=-1000&type=5&callback=callback'
+    $.getScript(url);
   }
 
   function getKLine (code, name, input, output) {
@@ -369,4 +432,25 @@ $(function () {
   }
 });
 
-// http://webstock.quote.hermes.hexun.com/a/kline?code=sse601398&start=20170909150000&number=-1000&type=5&callback=callback
+function callback (res) {
+  var list = res.Data[0];
+  var last = '';
+  var now = '';
+  var arr = [];
+  for (var i = list.length - 1; i > 0; i--) {
+    now = String(list[i][0]).substring(4, 6);
+    if (now !== last) {
+      last = now;
+      arr.unshift({
+        date: list[i][0],
+        open: list[i][2],
+        close: list[i][3],
+        high: list[i][4],
+        low: list[i][5]
+      });
+    }
+    if (arr.length >= 36) {
+      break;
+    }
+  }
+}
