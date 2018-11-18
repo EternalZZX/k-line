@@ -117,6 +117,10 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   flex-basis: 40%
 }
 
+.kl-section__item.kl-section__item_middle {
+  flex-basis: 50%;
+}
+
 .kl-section__item.kl-section__item_large {
   flex-basis: 60%
 }
