@@ -462,11 +462,11 @@ function computeResult (months, maturity, buyprice, saleprice, knockin, knockout
   }
   if (maturity > months) {
     return {
-      output: '-',
-      outputReal: '-',
-      loss: '-',
-      isKnockin: '-',
-      isKnockout: '-'
+      output: 'N/A',
+      outputReal: 'N/A',
+      loss: 'N/A',
+      isKnockin: 'N/A',
+      isKnockout: 'N/A'
     };
   }
   return {
