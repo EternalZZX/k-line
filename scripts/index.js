@@ -13,6 +13,7 @@ var dateRange = $('#date-range');
 var dataTable = $('#date-table');
 var computeButton = $('#compute-btn');
 var computeIncome = $('#compute-income');
+var pdfButton = $('#pdf-btn');
 var helpIncome1 = $('#help-income-1');
 var helpIncome2 = $('#help-income-2');
 var helpIncome3 = $('#help-income-3');
@@ -83,6 +84,10 @@ codeInput.keydown(function (event) {
 
 computeButton.click(function () {
   getIncome();
+});
+
+pdfButton.click(function () {
+  exportPdf();
 });
 
 function getIncome () {
@@ -389,7 +394,7 @@ function getOption (data, name, input, output) {
       }
     },
     series: [{
-      name: '周K',
+      name: 'K线图',
       type: 'candlestick',
       data: data.values,
       itemStyle: {
@@ -643,4 +648,18 @@ function callback (res) {
     tableData.data[4].push(results[i].isKnockout);
   }
   initTable(tableData);
+}
+
+function exportPdf () {
+  var doc = new jsPDF();          
+  var elementHandler = {
+    '#ignorePDF': function (element, renderer) {
+      return true;
+    }
+  };
+  var source = window.document.getElementsByTagName("body")[0];
+  doc.fromHTML(source, 15, 15, {
+    'width': 180, 'elementHandlers': elementHandler
+  });
+  doc.output("dataurlnewwindow");
 }
