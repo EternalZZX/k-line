@@ -16,6 +16,7 @@ var computeIncome = $('#compute-income');
 var helpIncome1 = $('#help-income-1');
 var helpIncome2 = $('#help-income-2');
 var helpIncome3 = $('#help-income-3');
+var helpIncome4 = $('#help-income-4');
 var KLineChart = echarts.init(document.getElementById('k-line-chart'));
 
 var dateRangeSelect = '';
@@ -97,7 +98,13 @@ function getIncome () {
     },
     success: function (data) {
       outputRate = data.data[0].output;
-      computeIncome.html((outputRate * 100).toFixed(2) + '%');
+      var rate = (outputRate * 100).toFixed(2) + '%';
+      var exampleRate = (outputRate * 500 / 12).toFixed(2) + '%';
+      computeIncome.html(rate);
+      helpIncome1.html(rate);
+      helpIncome2.html('例：第五个月敲出，收益 = ' + rate + ' * 5 / 12 = ' + exampleRate);
+      helpIncome3.html(rate);
+      helpIncome4.html(rate);
     }
   });
   getTableData(stockname);
@@ -118,11 +125,11 @@ function initSlider (option) {
     value: sliderOutput,
     slide: function (event, ui) {
       sliderOutput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      updateMarkLine();
     },
     change: function (event, ui) {
       sliderOutput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      updateMarkLine();
     }
   }).slider('pips', {
     rest: 'label'
@@ -140,13 +147,13 @@ function initSlider (option) {
     max: inputMax,
     step: inputStep,
     value: sliderInput,
-    slide: function ( event, ui ) {
+    slide: function (event, ui) {
       sliderInput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      updateMarkLine();
     },
-    change: function ( event, ui ) {
+    change: function (event, ui) {
       sliderInput = ui.value;
-      drawChart(weeklyData, name, price * sliderInput / 100, price * sliderOutput / 100);
+      updateMarkLine();
     }
   }).slider('pips', {
     rest: 'label'
@@ -163,6 +170,19 @@ function initSlider (option) {
     })
   });
   initDateRange(dateArray);
+}
+
+function updateMarkLine () {
+  KLineChart.setOption({
+    series: [{
+      markLine: {
+        data: [
+          { name: '敲入', xAxis: 0, yAxis: price * sliderInput / 100, symbol: 'circle'},
+          { name: '敲出', xAxis: 0, yAxis: price * sliderOutput / 100, symbol: 'circle'}
+        ]
+      }
+    }]
+  });
 }
 
 function searchText (text) {
@@ -202,9 +222,9 @@ function initDateRange (dateArray) {
 
 function initTable (tableData) {
   dataTable.empty();
-  var html = '<thead><tr><th></th>';
+  var html = '<thead><tr><th width="32%"></th>';
   tableData.head.forEach(function (item) {
-    html += '<th>' + item + '</th>';
+    html += '<th width="17%">' + item + '</th>';
   });
   html += '</tr></thead><tbody>';
   for (var i = 0; i < tableData.title.length; i++) {
@@ -245,21 +265,62 @@ function getTableData (code) {
   $.getScript(url);
 }
 
+var _name;
+var _input;
+var _output;
+
 function getKLine (code, name, input, output) {
+  // if (!code) {
+  //   return;
+  // }
+  // var arr = code.split('.');
+  // var reqCode = arr[1].toLowerCase() + arr[0];
+  // $.getScript(weeklyDataUrl + reqCode + '.js', function () {
+  //   weeklyData = formatData();
+  //   drawChart(weeklyData, name, input, output);
+  // }).fail(function (err) {
+  //   console.log(err);
+  // });
+
   if (!code) {
     return;
   }
+  _name = name;
+  _input = input;
+  _output = output;
   var arr = code.split('.');
-  var reqCode = arr[1].toLowerCase() + arr[0];
-  $.getScript(weeklyDataUrl + reqCode + '.js', function () {
-    weeklyData = formatData();
-    drawChart(weeklyData, name, input, output);
-  }).fail(function (err) {
-    console.log(err);
-  });
+  var reqCode = (arr[1].toLowerCase() === 'sz' ? 'szse' : 'sse') + arr[0];
+  var date = new Date();
+  var start = date.getFullYear() + '' + (date.getMonth() + 1) + '' + date.getDate() + '000000';
+  var url = dailyDataUrl + '?code=' + reqCode + '&start=' + start + '&number=-1000&type=5&callback=klinecallback'
+  $.getScript(url);
 }
 
-function drawChart(raw, name, input, output) {
+function klinecallback (res) {
+  var list = res.Data[0];
+  var dict = {};
+  list.forEach(function (item, index) {
+    dict[item[0]] = index;
+  });
+  var nowDate = number2date(list[list.length - 1][0]);
+  var startDate = getStartDate(nowDate, 36, dict);
+  var index = dict[date2number(startDate)];
+  weeklyData = [];
+  for (var i = index; i < list.length; i ++) {
+    var date = number2date(list[i][0]);
+    weeklyData.push([
+      date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+      list[i][2] / 100,
+      list[i][3] / 100,
+      list[i][5] / 100,
+      list[i][4] / 100,
+      list[i][6] / 100
+    ]);
+  }
+  drawChart(weeklyData, _name, _input, _output);
+}
+
+function drawChart (raw, name, input, output) {
   var data = deepClone(raw);
   data = splitData(data);
   var option = getOption(data, name, input, output);
@@ -301,6 +362,11 @@ function getOption (data, name, input, output) {
         return parseInt(value.min * 0.65);
       }
     },
+    dataZoom: [{
+      type: 'inside',
+      start: 0,
+      end: 100
+    }],
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -560,7 +626,8 @@ function callback (res) {
   months.forEach(function (month) {
     var startDate = getStartDate(nowDate, month, dict);
     var endDate = getEndDate(startDate, maturity, dict);
-    var everyData = getEveryData(list, startDate, endDate);var result = computeResult(month, maturity, dict[date2number(startDate)], dict[date2number(endDate)], sliderInput, sliderOutput, outputRate, priceData, everyData);
+    var everyData = getEveryData(list, startDate, endDate);
+    var result = computeResult(month, maturity, dict[date2number(startDate)], dict[date2number(endDate)], sliderInput, sliderOutput, outputRate, priceData, everyData);
     results.push(result);
   });
   var tableData = {

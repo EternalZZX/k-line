@@ -114,15 +114,19 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 }
 
 .kl-section__item {
-  flex-basis: 40%
+  flex-basis: 40%;
+}
+
+.kl-section__item.kl-section__item_small {
+  flex-basis: 45%;
 }
 
 .kl-section__item.kl-section__item_middle {
-  flex-basis: 50%;
+  flex-basis: 55%;
 }
 
 .kl-section__item.kl-section__item_large {
-  flex-basis: 60%
+  flex-basis: 60%;
 }
 
 .kl-content {
@@ -139,8 +143,9 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   top: -2rem;
   left: 0;
   height: 2rem;
-  font-size: 1rem;
+  font-size: 1.25rem;
   line-height: 2rem;
+  font-weight: bold; 
   border-bottom: 3px solid #268de4;
   box-sizing: border-box;
 }
@@ -311,6 +316,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   height: 2rem;
   width: 5rem;
   font-size: 1rem;
+  line-height: 1rem;
   color: #fff;
   background-color: #268de4;
   border: 1px solid #268de4;
@@ -356,6 +362,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 
 .kl-table th {
   padding: .8rem 0;
+  font-weight: bold;
 }
 
 .kl-table tbody tr:first-child td {
@@ -368,6 +375,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 
 .kl-table tbody tr td:first-child {
   padding-left: .8rem;
+  font-weight: bold;
   text-align: left;
   color: #268de4;
 }
@@ -393,7 +401,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 }
 
 .kl-help {
-  font-size: 1rem; 
+  font-size: 1.25rem; 
 }
 
 .kl-help li {

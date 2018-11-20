@@ -38,9 +38,9 @@
           <section class="kl-content kl-content_t" data-title="回测">
             <div class="kl-compute">
               <button id="compute-btn" class="kl-compute__button">确定</button>
-              <p class="kl-compute__info">
+              <!-- <p class="kl-compute__info">
                 收益 = <span id="compute-income">0.00%</span>
-              </p>
+              </p> -->
             </div>
             <table id="date-table" class="kl-table"></table>
           </section>
@@ -52,25 +52,25 @@
             <ul class="kl-help">
               <li>
                 <p><b>1. </b>任何一个敲出观察日敲出（交易提前终止）</p>
-                <strong>投资人总收益 = <span id="help-income-1">26%</span>（年化）</strong>
-                <span class="kl-help__description">例：第五个月敲出，收益 = 26% * 5 / 12 = 10.8%</span>
+                <strong>投资人总收益 = <span id="help-income-1"></span>（年化）</strong>
+                <span id="help-income-2" class="kl-help__description" ></span>
               </li>
               <li>
                 <p><b>2. </b>期间敲入，并在某一敲出观察日敲出交易提前终止</p>
-                <strong>投资人总收益 = <span id="help-income-2">16%</span>（年化）</strong>
+                <strong>投资人总收益 = <span id="help-income-3"></span>（年化）</strong>
               </li>
               <li>
                 <p><b>3. </b>期中从未敲出，从未敲入</p>
-                <strong>投资人总收益 = <span id="help-income-3">16%</span></strong>
+                <strong>投资人总收益 = <span id="help-income-4"></span>（年化）</strong>
               </li>
               <li>
                 <p><b>4. </b>期中从未敲出，曾敲入到期日股价低于期初价格</p>
-                <strong>投资人总亏损 = <span>跌幅</span>（非年化）</strong>
+                <strong>投资人总亏损 = <span>实际跌幅</span>（非年化）</strong>
               </li>
             </ul>
           </section>
         </li>
-        <li class="kl-section__item kl-section__item_middle">
+        <li class="kl-section__item kl-section__item_small">
           <div class="kl-help-image__wrapper">
             <div class="kl-shadow-box">
               <img class="kl-help-image" src="images/help.png">
