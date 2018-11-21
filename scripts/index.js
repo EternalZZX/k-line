@@ -651,16 +651,34 @@ function callback (res) {
 }
 
 function exportPdf () {
-  window.print();
-  // var doc = new jsPDF();          
-  // var elementHandler = {
-  //   '#ignorePDF': function (element, renderer) {
-  //     return true;
-  //   }
-  // };
-  // var source = window.document.getElementsByTagName("body")[0];
-  // doc.fromHTML(source, 15, 15, {
-  //   'width': 180, 'elementHandlers': elementHandler
-  // });
-  // doc.output("dataurlnewwindow");
+  $('html, body').scrollTop(0);
+  html2canvas(document.getElementById('pdf-export'), {
+    taintTest: true,
+    useCORS: true, 
+    background: '#fff',
+    onrendered: function (canvas) {
+      var contentWidth = canvas.width;
+      var contentHeight = canvas.height;
+      var pageHeight = contentWidth / 592.28 * 841.89;
+      var leftHeight = contentHeight;
+      var position = 0;
+      var imgWidth = 595.28;
+      var imgHeight = 592.28 / contentWidth * contentHeight;
+      var pageData = canvas.toDataURL('image/png', 1.0);
+      var pdf = new jsPDF('', 'pt', 'a4');
+      if (leftHeight < pageHeight) {
+	      pdf.addImage(pageData, 'PNG', 0, 0, imgWidth, imgHeight);
+      } else {
+	      while (leftHeight > 0) {
+          pdf.addImage(pageData, 'PNG', 0, position, imgWidth, imgHeight);
+          leftHeight -= pageHeight;
+          position -= 841.89;
+          if (leftHeight > 0) {
+            pdf.addPage();
+          }
+	      }
+      }
+      pdf.save('收益.pdf');
+    }
+  });
 }
