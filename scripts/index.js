@@ -40,7 +40,7 @@ codeInput.autocomplete({
       type: 'get',
       dataType: 'jsonp',
       data: {
-        keyword: codeInput.val()
+        keyword: request.term
       },
       success: function (data) {
         if (!data.data.length) {
@@ -76,13 +76,21 @@ codeInput.autocomplete({
 
 searchButton.click(function () {
   var text = codeInput.val();
-  searchText(text);
+  if (!text) {
+    toast.show('请输入要搜索的股票信息');
+  } else {
+    searchText(text);
+  }
 });
 
 codeInput.keydown(function (event) { 
   if (event.keyCode === 13) {
     var text = codeInput.val();
-    searchText(text);
+    if (!text) {
+      toast.show('请输入要搜索的股票信息');
+    } else {
+      searchText(text);
+    }
   }
 });
 
@@ -203,6 +211,9 @@ function searchText (text) {
       keyword: text
     },
     success: function (data) {
+      if (!data.data.length) {
+        toast.show('您搜索的股票不在可选择的范围中');
+      }
       initSlider({
         maturityList: data.data[0].maturity_list,
         knockinList: data.data[0].knockin_list,
