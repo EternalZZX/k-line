@@ -8,6 +8,12 @@
     <meta http-equiv="cache-control" content="private">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>收益计算</title>
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script>
+      if (!localStorage.getItem('token')) {
+        window.location.href = 'login.html';
+      }
+    </script>
     <link rel="stylesheet" href="styles/jquery-ui-slider-pips.min.css">
     <link rel="stylesheet" href="styles/index.css?version=1.0.0">
   </head>
@@ -96,7 +102,6 @@
         </li>
       </ul>
     </main>
-    <script src="scripts/jquery-3.3.1.min.js"></script>
     <script src="scripts/jquery-ui.min.js"></script>
     <script src="scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="scripts/jquery-ui-slider-pips.min.js"></script>

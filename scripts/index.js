@@ -29,10 +29,6 @@ var name = '';
 var price = 0;
 var weeklyData = [];
 
-if (!localStorage.getItem('token')) {
-  window.location.href = 'login.html';
-}
-
 searchText('000016.SH');
 
 codeInput.autocomplete({
