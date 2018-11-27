@@ -45,9 +45,6 @@ codeInput.autocomplete({
         keyword: request.term
       },
       success: function (data) {
-        if (!data.data.length) {
-          toast.show('您搜索的股票不在可选择的范围中');
-        }
         response($.map(data.data, 
           function (item) {
             return {
