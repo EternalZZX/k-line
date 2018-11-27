@@ -1,6 +1,6 @@
 function Toast (id, time) {
   this.toast = $(id + ' .kl-toast');
-  this.time = time || 2500;
+  this.time = time || 3000;
   this.isShow = false;
 }
 
