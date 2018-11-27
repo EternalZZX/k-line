@@ -13,7 +13,6 @@ body {
   width: 100%;
   height: 100%;
   font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
-  background-color: #fff;
 }
 
 li {
@@ -184,7 +183,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 
 .kl-chart {
   width: 100%;
-  height: 32.55rem;
+  height: 32.35rem;
 }
 
 .kl-slider {
@@ -325,8 +324,8 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 .kl-compute {
   position: absolute;
   display: flex;
-  top: -2.4rem;
-  left: 4rem;
+  top: -2.3rem;
+  left: 4.5rem;
 }
 
 .kl-compute__button {
@@ -451,8 +450,43 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 }
 
 .kl-help dl dd {
+  position: relative;
   flex-basis: 55%;
 }
+
+.kl-help dl dd .kl-help-no1,
+.kl-help dl dd .kl-help-no2 {
+  position: absolute;
+  left: 0;
+  font-size: 14px;
+}
+
+.kl-help dl:nth-child(1) .kl-help-no1,
+.kl-help dl:nth-child(3) .kl-help-no1,
+.kl-help dl:nth-child(4) .kl-help-no1 {
+  top: 1rem;
+}
+
+.kl-help dl:nth-child(2) .kl-help-no1 {
+  top: 2rem;
+}
+
+.kl-help dl:nth-child(1) .kl-help-no2 {
+  bottom: .1rem;
+}
+
+.kl-help dl:nth-child(2) .kl-help-no2 {
+  bottom: 2.5rem;
+}
+
+.kl-help dl:nth-child(3) .kl-help-no2 {
+  bottom: .4rem;
+}
+
+.kl-help dl:nth-child(4) .kl-help-no2 {
+  bottom: 1.8rem;
+}
+
 
 .kl-help dl p {
   margin-bottom: 1rem;
@@ -608,8 +642,68 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
     color: #fff;
     text-align: center;
   }
+
+  .kl-help dl:nth-child(1) .kl-help-no1,
+  .kl-help dl:nth-child(3) .kl-help-no1,
+  .kl-help dl:nth-child(4) .kl-help-no1 {
+    top: 1.5rem;
+    left: 0;
+  }
+
+  .kl-help dl:nth-child(2) .kl-help-no1 {
+    top: 2.5rem;
+    left: 0;
+  }
+
+  .kl-help dl:nth-child(1) .kl-help-no2,
+  .kl-help dl:nth-child(3) .kl-help-no2 {
+    bottom: .2rem;
+    left: 0;
+  }
+
+  .kl-help dl:nth-child(2) .kl-help-no2 {
+    bottom: 2.8rem;
+    left: 0;
+  }
+
+  .kl-help dl:nth-child(4) .kl-help-no2 {
+    bottom: 2rem;
+    left: -0;
+  }
+
 }
 
+
+@media screen and (max-width: 414px) {
+
+  .kl-help dl:nth-child(1) .kl-help-no1,
+  .kl-help dl:nth-child(3) .kl-help-no1,
+  .kl-help dl:nth-child(4) .kl-help-no1 {
+    top: .3rem;
+    left: -.4rem;
+  }
+
+  .kl-help dl:nth-child(2) .kl-help-no1 {
+    top: .8rem;
+    left: -.4rem;
+  }
+
+  .kl-help dl:nth-child(1) .kl-help-no2,
+  .kl-help dl:nth-child(3) .kl-help-no2 {
+    bottom: .1rem;
+    left: -.2rem;
+  }
+
+  .kl-help dl:nth-child(2) .kl-help-no2 {
+    bottom: 1.4rem;
+    left: -.2rem;
+  }
+
+  .kl-help dl:nth-child(4) .kl-help-no2 {
+    bottom: 1rem;
+    left: -.2rem;
+  }
+}
 
 .kl-toast__wrapper {
   position: fixed;

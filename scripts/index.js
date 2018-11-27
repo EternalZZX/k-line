@@ -19,6 +19,8 @@ var helpIncome1 = $('#help-income-1');
 var helpIncome2 = $('#help-income-2');
 var helpIncome3 = $('#help-income-3');
 var helpIncome4 = $('#help-income-4');
+var helpOutput = $('.kl-help-no1');
+var helpInput = $('.kl-help-no2');
 var KLineChart = echarts.init(document.getElementById('k-line-chart'));
 
 var dateRangeSelect = '';
@@ -133,6 +135,7 @@ function initSlider (option) {
   var outputMax = parseInt(knockoutList[knockoutList.length - 1]);
   var outputStep = (outputMax - outputMin) / (knockoutList.length - 1);
   sliderOutput = parseInt(knockoutList[1]);
+  helpOutput.html(sliderOutput + '%');
   $('#slider-output').slider({
     orientation: 'vertical',
     range: 'min',
@@ -142,10 +145,12 @@ function initSlider (option) {
     value: sliderOutput,
     slide: function (event, ui) {
       sliderOutput = ui.value;
+      helpOutput.html(sliderOutput + '%');
       updateMarkLine();
     },
     change: function (event, ui) {
       sliderOutput = ui.value;
+      helpOutput.html(sliderOutput + '%');
       updateMarkLine();
     }
   }).slider('pips', {
@@ -157,6 +162,7 @@ function initSlider (option) {
   var inputMax = parseInt(knockinList[knockinList.length - 1]);
   var inputStep = (inputMax - inputMin) / (knockinList.length - 1);
   sliderInput = parseInt(knockinList[knockinList.length - 1]);
+  helpInput.html(sliderInput + '%');
   $('#slider-input').slider({
     orientation: 'vertical',
     range: 'max',
@@ -166,10 +172,12 @@ function initSlider (option) {
     value: sliderInput,
     slide: function (event, ui) {
       sliderInput = ui.value;
+      helpInput.html(sliderInput + '%');
       updateMarkLine();
     },
     change: function (event, ui) {
       sliderInput = ui.value;
+      helpInput.html(sliderInput + '%');
       updateMarkLine();
     }
   }).slider('pips', {
