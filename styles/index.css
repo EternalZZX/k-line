@@ -325,8 +325,8 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 .kl-compute {
   position: absolute;
   display: flex;
-  top: -1.8rem;
-  left: 4.5rem;
+  top: -2.4rem;
+  left: 4rem;
 }
 
 .kl-compute__button {
@@ -607,6 +607,59 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   .login-main h4 {
     color: #fff;
     text-align: center;
+  }
+}
+
+
+.kl-toast__wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: 45%;
+  width: 100%;
+  z-index: 100;
+}
+
+.kl-toast__wrapper .kl-toast {
+  display: none;
+  max-width: 80%;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+}
+
+.kl-toast__wrapper .kl-toast.hl-toast_show {
+  display: inline-block;
+  animation: scaleIn .3s forwards;
+}
+
+.kl-toast__wrapper .kl-toast.hl-toast_hide {
+  display: inline-block;
+  animation: scaleOut .3s forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0
+  }
+  to {
+    transform: scale(1);
+    opacity: 1
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1
+  }
+  to {
+    transform: scale(0.5);
+    opacity: 0
   }
 }
 

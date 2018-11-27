@@ -7,6 +7,7 @@ var downColor = '#00da3c';
 var upBorderColor = '#8A0000';
 var downBorderColor = '#008F28';
 
+var toast = new Toast('#toast');
 var searchButton = $('#search-btn');
 var codeInput = $('#code-input');
 var dateRange = $('#date-range');
@@ -42,6 +43,9 @@ codeInput.autocomplete({
         keyword: codeInput.val()
       },
       success: function (data) {
+        if (!data.data.length) {
+          toast.show('您搜索的股票不在可选择的范围中');
+        }
         response($.map(data.data, 
           function (item) {
             return {
