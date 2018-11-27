@@ -543,10 +543,10 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
 .login-group .error-msg {
   display: none;
   position: absolute;
-  width: auto;
-  color: red;
   top: 4rem;
-  left: 10rem;
+  width: 100%;
+  text-align: center;
+  color: red;
 }
 
 .login-group .btn-login {
