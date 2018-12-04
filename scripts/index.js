@@ -38,7 +38,7 @@ codeInput.autocomplete({
   minLength: 2,
   source: function (request, response) {
     $.get({
-      url: "http://www.vcup.cn/api/income/stock",
+      url: "http://api.fderivatives.com/api/income/stock",
       type: 'get',
       dataType: 'jsonp',
       data: {
@@ -103,7 +103,7 @@ pdfButton.click(function () {
 
 function getIncome () {
   $.get({
-    url: "http://www.vcup.cn/api/income/output",
+    url: "http://api.fderivatives.com/api/income/output",
     type: 'get',
     dataType: 'jsonp',
     data: {
@@ -205,7 +205,7 @@ function updateMarkLine () {
 
 function searchText (text) {
   $.get({
-    url: "http://www.vcup.cn/api/income/stock",
+    url: "http://api.fderivatives.com/api/income/stock",
     type: 'get',
     dataType: 'jsonp',
     data: {
