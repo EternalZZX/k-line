@@ -281,7 +281,9 @@ function getTableData (code) {
   var arr = code.split('.');
   var reqCode = (arr[1].toLowerCase() === 'sz' ? 'szse' : 'sse') + arr[0];
   var date = new Date();
-  var start = date.getFullYear() + '' + (date.getMonth() + 1) + '' + date.getDate() + '000000';
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var start = date.getFullYear() + '' + (month < 10 ? '0' + month : month) + '' + (day < 10 ? '0' + day : day) + '000000';
   var url = dailyDataUrl + '?code=' + reqCode + '&start=' + start + '&number=-1000&type=5&callback=callback'
   $.getScript(url);
 }
