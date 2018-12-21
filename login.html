@@ -12,23 +12,86 @@
   </head>
   <body class="login">
     <div class="login-main">
-      <form>
-        <h4>欢迎登录</h4>
-        <div class="login-group">
-          <span class="icon-name"><img src="images/icon-name.png" width="100%" /></span>
-          <input type="text" placeholder="请输入用户名" id="username"/>
+
+      <div class="login-left">
+        <div class="ft-carousel" id="carousel_3">
+          <ul class="carousel-inner">
+            <li class="carousel-item"><img src="images/bg-login-01.jpg" width="100%"  /></li>
+            <li class="carousel-item"><img src="images/bg-login-02.jpg" width="100%"  /></li>
+          </ul>
         </div>
-        <div class="login-group">
-          <span class="icon-pw"><img src="images/icon-pw.png" width="100%" /></span>
-          <input type="password" placeholder="请输入密码" id="password"/>
-          <p class="error-msg" id="error-msg">用户名或密码错误</p>
-        </div>
-        <div class="login-group">
-          <button type="button" class="btn-login" id="login-btn">登 录</button>
-        </div>
-      </form>
+      </div>
+
+      <div class="login-right">
+        <div class="tab">
+
+          <ul class="tabs">
+            <li data-category="1"><a>金融机构</a></li>
+            <li data-category="2"><a>私募基金</a></li>
+            <li data-category="3"><a>合格投资者</a></li>
+          </ul> <!-- / tabs -->
+
+          <div class="tab_content">
+
+            <div class="tabs_item">
+              <p class="tabs-submenu">银行<span>/</span>保险<span>/</span>券商<span>/</span>信托<span>/</span>基金<span>/</span>期货</p>
+              <form>
+                <div class="login-group">
+                  <span class="icon-name"><img src="images/icon-username.png" width="100%" /></span>
+                  <input type="text" placeholder="请输入用户名" class="username"/>
+                </div>
+                <div class="login-group">
+                  <span class="icon-pw"><img src="images/icon-password.png" width="100%" /></span>
+                  <input type="password" placeholder="请输入密码" class="password"/>
+                  <p class="error-msg">用户名或密码错误</p>
+                </div>
+                <div class="login-group">
+                  <button type="button" class="btn-login">登 录</button>
+                </div>
+              </form>
+            </div> <!-- / tabs_item -->
+
+            <div class="tabs_item">
+              <form>
+                <div class="login-group">
+                  <span class="icon-name"><img src="images/icon-username.png" width="100%" /></span>
+                  <input type="text" placeholder="请输入用户名" class="username"/>
+                </div>
+                <div class="login-group">
+                  <span class="icon-pw"><img src="images/icon-password.png" width="100%" /></span>
+                  <input type="password" placeholder="请输入密码" class="password"/>
+                  <p class="error-msg">用户名或密码错误</p>
+                </div>
+                <div class="login-group">
+                  <button type="button" class="btn-login">登 录</button>
+                </div>
+              </form>
+            </div> <!-- / tabs_item -->
+
+            <div class="tabs_item">
+              <form>
+                <div class="login-group">
+                  <span class="icon-name"><img src="images/icon-username.png" width="100%" /></span>
+                  <input type="text" placeholder="请输入用户名" class="username"/>
+                </div>
+                <div class="login-group">
+                  <span class="icon-pw"><img src="images/icon-password.png" width="100%" /></span>
+                  <input type="password" placeholder="请输入密码" class="password"/>
+                  <p class="error-msg">用户名或密码错误</p>
+                </div>
+                <div class="login-group">
+                  <button type="button" class="btn-login">登 录</button>
+                </div>
+              </form>
+            </div> <!-- / tabs_item -->
+
+          </div> <!-- / tab_content -->
+        </div> <!-- / tab -->
+      </div>
     </div>
     <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="scripts/ft-carousel.min.js"></script>
+    <script src="scripts/tab.js"></script>
     <script src="scripts/login.js"></script>
   </body>
 </html>

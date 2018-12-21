@@ -1,10 +1,21 @@
 $(function () {
-  var username = $('#username');
-  var password = $('#password');
-  var errorMessage = $('#error-msg');
-  var loginButton = $('#login-btn');
+  var username = $('.username');
+  var password = $('.password');
+  var errorMessage = $('.error-msg');
+  var loginButton = $('.btn-login');
 
-  localStorage.removeItem('token');
+  $("#carousel_3").FtCarousel({
+    index: 0,
+    auto: true,
+    time: 3000,
+    indicators: false,
+    buttons: true
+  });
+
+  localStorage.removeItem('id');
+  localStorage.removeItem('lastlogin');
+  localStorage.removeItem('sys_name');
+  localStorage.removeItem('logo_image');
 
   loginButton.click(login);
 
@@ -23,12 +34,27 @@ $(function () {
   });
 
   function login () {
-    if (username.val() === 'admin' &&
-      password.val() === 'admin') {
-      window.location.href = 'index.html';
-      localStorage.setItem('token', new Date().getTime());
-    } else {
-      errorMessage.show();
-    }
+    var category = $('.current').data('category');
+    $.get({
+      url: "http://api.fderivatives.com/api/account/login",
+      type: 'get',
+      dataType: 'jsonp',
+      data: {
+        username: $(username[category - 1]).val(),
+        password: $(password[category - 1]).val(),
+        category: category
+      },
+      success: function (data) {
+        if (data.code) {
+          localStorage.setItem('id', data.data.id);
+          localStorage.setItem('lastlogin', data.data.lastlogin);
+          localStorage.setItem('sys_name', data.data.sys_name);
+          localStorage.setItem('logo_image', data.data.logo_image);
+          window.location.href = 'index.html';
+        } else {
+          errorMessage.show();
+        }
+      }
+    });
   }
 });

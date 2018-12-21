@@ -32,6 +32,8 @@ var name = '';
 var price = 0;
 var weeklyData = [];
 
+$('#logo').attr('src', localStorage.getItem('logo_image'));
+$('#sys').html(localStorage.getItem('sys_name'));
 searchText('000016.SH');
 
 codeInput.autocomplete({
