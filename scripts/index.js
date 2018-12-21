@@ -409,7 +409,7 @@ function getOption (data, name, input, output) {
       left: '12%',
       right: '12%',
       top: '10%',
-      bottom: '8%'
+      bottom: '18%'
     },
     xAxis: {
       type: 'category',
@@ -437,6 +437,12 @@ function getOption (data, name, input, output) {
     dataZoom: [{
       type: 'inside',
       start: 0,
+      end: 100
+    }, {
+      show: true,
+      type: 'slider',
+      y: '90%',
+      start: 50,
       end: 100
     }],
     tooltip: {
