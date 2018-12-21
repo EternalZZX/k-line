@@ -9,6 +9,7 @@ var downBorderColor = '#008F28';
 
 var toast = new Toast('#toast');
 var searchButton = $('#search-btn');
+var logoutButton =$('#logout');
 var codeInput = $('#code-input');
 var dateRange = $('#date-range');
 var dataTable = $('#date-table');
@@ -32,11 +33,12 @@ var name = '';
 var price = 0;
 var weeklyData = [];
 var accountId = localStorage.getItem('id');
+var username = localStorage.getItem('username');
 var lastlogin = localStorage.getItem('lastlogin');
 var logoImage = localStorage.getItem('logo_image');
 var sysName = localStorage.getItem('sys_name');
 
-loginInit(accountId, lastlogin, logoImage, sysName);
+loginInit(accountId, username, lastlogin, logoImage, sysName);
 searchText('000016.SH', false);
 
 codeInput.autocomplete({
@@ -107,9 +109,14 @@ pdfButton.click(function () {
   exportPdf();
 });
 
-function loginInit (accountId, lastlogin, logoImage, sysName) {
+logoutButton.click(function () {
+  window.location.href = 'login.html';
+});
+
+function loginInit (accountId, username, lastlogin, logoImage, sysName) {
   $('#logo').attr('src', 'http://api.fderivatives.com' + logoImage);
   $('#sys').html(sysName);
+  $('#username').html(username);
   setInterval(function() {
     $.get({
       url: "http://api.fderivatives.com/api/account/checkLogin",

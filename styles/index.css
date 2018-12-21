@@ -57,6 +57,23 @@ li,input,button{
   font-size: 1.125rem;
 }
 
+.kl-header__account {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.kl-header__logout {
+  margin: 0 1rem;
+  user-select: none;
+  cursor: pointer;
+}
+
 .kl-header__input {
   height: 2.5rem;
   width: 16rem;

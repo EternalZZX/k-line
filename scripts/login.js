@@ -13,6 +13,7 @@ $(function () {
   });
 
   localStorage.removeItem('id');
+  localStorage.removeItem('username');
   localStorage.removeItem('lastlogin');
   localStorage.removeItem('sys_name');
   localStorage.removeItem('logo_image');
@@ -47,6 +48,7 @@ $(function () {
       success: function (data) {
         if (data.code) {
           localStorage.setItem('id', data.data.id);
+          localStorage.setItem('username', data.data.username);
           localStorage.setItem('lastlogin', data.data.lastlogin);
           localStorage.setItem('sys_name', data.data.sys_name);
           localStorage.setItem('logo_image', data.data.logo_image);
