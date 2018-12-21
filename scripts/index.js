@@ -36,7 +36,7 @@ var lastlogin = localStorage.getItem('lastlogin');
 var logoImage = localStorage.getItem('logo_image');
 var sysName = localStorage.getItem('sys_name');
 
-loginInit(accountId, lastlogin, logoImage, sysName)
+loginInit(accountId, lastlogin, logoImage, sysName);
 searchText('000016.SH', false);
 
 codeInput.autocomplete({
@@ -84,7 +84,7 @@ searchButton.click(function () {
   if (!text) {
     toast.show('请输入要搜索的股票信息');
   } else {
-    searchText(text);
+    searchText(text, true);
   }
 });
 
@@ -94,7 +94,7 @@ codeInput.keydown(function (event) {
     if (!text) {
       toast.show('请输入要搜索的股票信息');
     } else {
-      searchText(text);
+      searchText(text, true);
     }
   }
 });
@@ -108,7 +108,7 @@ pdfButton.click(function () {
 });
 
 function loginInit (accountId, lastlogin, logoImage, sysName) {
-  $('#logo').attr('src', logoImage);
+  $('#logo').attr('src', 'http://api.fderivatives.com' + logoImage);
   $('#sys').html(sysName);
   setInterval(function() {
     $.get({
