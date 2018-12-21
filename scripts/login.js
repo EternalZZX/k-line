@@ -41,7 +41,7 @@ $(function () {
       dataType: 'jsonp',
       data: {
         username: $(username[category - 1]).val(),
-        password: $(password[category - 1]).val(),
+        password: hex_md5($(password[category - 1]).val()),
         category: category
       },
       success: function (data) {
