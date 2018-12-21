@@ -31,14 +31,18 @@ var stockname = '';
 var name = '';
 var price = 0;
 var weeklyData = [];
+var accountId = localStorage.getItem('id');
+var lastlogin = localStorage.getItem('lastlogin');
+var logoImage = localStorage.getItem('logo_image');
+var sysName = localStorage.getItem('sys_name');
 
-$('#logo').attr('src', localStorage.getItem('logo_image'));
-$('#sys').html(localStorage.getItem('sys_name'));
-searchText('000016.SH');
+loginInit(accountId, lastlogin, logoImage, sysName)
+searchText('000016.SH', false);
 
 codeInput.autocomplete({
   minLength: 2,
   source: function (request, response) {
+    recordSearch(request.term);
     $.get({
       url: "http://api.fderivatives.com/api/income/stock",
       type: 'get',
@@ -102,6 +106,39 @@ computeButton.click(function () {
 pdfButton.click(function () {
   exportPdf();
 });
+
+function loginInit (accountId, lastlogin, logoImage, sysName) {
+  $('#logo').attr('src', logoImage);
+  $('#sys').html(sysName);
+  setInterval(function() {
+    $.get({
+      url: "http://api.fderivatives.com/api/account/checkLogin",
+      type: 'get',
+      dataType: 'jsonp',
+      data: {
+        id: accountId,
+        lastlogin: lastlogin
+      },
+      success: function (data) {
+        if (!data.loginstate) {
+          window.location.href = 'login.html';
+        }
+      }
+    });
+  }, 300000);
+}
+
+function recordSearch (keyword) {
+  $.get({
+    url: "http://api.fderivatives.com/api/record/search",
+    type: 'get',
+    dataType: 'jsonp',
+    data: {
+      account_id: localStorage.getItem('id'),
+      keyword: keyword
+    }
+  });
+}
 
 function getIncome () {
   $.get({
@@ -205,7 +242,8 @@ function updateMarkLine () {
   });
 }
 
-function searchText (text) {
+function searchText (text, record) {
+  record && recordSearch(text);
   $.get({
     url: "http://api.fderivatives.com/api/income/stock",
     type: 'get',
