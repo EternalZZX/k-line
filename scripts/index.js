@@ -127,7 +127,7 @@ function loginInit (accountId, username, lastlogin, logoImage, sysName) {
         lastlogin: lastlogin
       },
       success: function (data) {
-        if (!data.loginstate) {
+        if (!data.data || !data.data.loginstate) {
           window.location.href = 'login.html';
         }
       }
