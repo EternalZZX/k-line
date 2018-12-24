@@ -546,6 +546,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   display: block;
   padding-left: 1rem;
   color: #939393;
+  font-size: 14px;
 }
 
 .kl-help-image {
@@ -695,6 +696,7 @@ ul.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front li.ui-menu-item:
   text-indent: 4rem;
   background-color: #f7f7f7 ;
   border-bottom: 1px solid #12327f;
+  border-radius: 0px;
 }
 
 .login-group .error-msg {

@@ -44,7 +44,6 @@ searchText('000016.SH', false);
 codeInput.autocomplete({
   minLength: 2,
   source: function (request, response) {
-    recordSearch(request.term);
     $.get({
       url: "http://api.fderivatives.com/api/income/stock",
       type: 'get',
@@ -77,7 +76,7 @@ codeInput.autocomplete({
       knockinList: ui.item.knockinList,
       knockoutList: ui.item.knockoutList
     });
-    getShareInfo(ui.item.code); 
+    getShareInfo(ui.item.code, true); 
   }
 });
 
@@ -250,7 +249,6 @@ function updateMarkLine () {
 }
 
 function searchText (text, record) {
-  record && recordSearch(text);
   $.get({
     url: "http://api.fderivatives.com/api/income/stock",
     type: 'get',
@@ -267,7 +265,7 @@ function searchText (text, record) {
         knockinList: data.data[0].knockin_list,
         knockoutList: data.data[0].knockout_list
       });
-      getShareInfo(data.data[0].stockname);
+      getShareInfo(data.data[0].stockname, record);
     }
   });
 }
@@ -306,7 +304,7 @@ function initTable (tableData) {
   dataTable.append(html);
 }
 
-function getShareInfo (code) {
+function getShareInfo (code, record) {
   if (!code) {
     return;
   }
@@ -317,6 +315,7 @@ function getShareInfo (code) {
     var arr = window['v_' + reqCode].split('~');
     name = arr[1] + ' (' + code + ')';
     price = parseFloat(arr[3]);
+    record !== false && recordSearch(name);
     getKLine(code, name, price * sliderInput / 100, price * sliderOutput / 100);
     getIncome();
   }).fail(function (err) {
